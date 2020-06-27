@@ -75,8 +75,6 @@ jobs:
   run_tests:
     <<: *test_container_config
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
       - *restore_repo
       - *restore_requirement
       - setup_dependencies
