@@ -14,7 +14,7 @@ references:
     environment: *envs
     docker:
       - image: circleci/python:3.7.7-buster
-      - image: circleci/postgres:13-alpine
+      - image: circleci/postgres:9.6-alpine
         name: favoritedb
         environment:
           - POSTGRES_PASSWORD=favoritedb
