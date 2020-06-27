@@ -1,0 +1,162 @@
+info:
+  description: ''
+  title: ''
+  version: ''
+openapi: 3.0.0
+paths:
+  /api/v1/category/:
+    get:
+      description: Category viewsets
+      operationId: category_list
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          description: Number of results to return per page.
+          title: Limit
+          type: integer
+      - in: query
+        name: offset
+        schema:
+          description: The initial index from which to return the results.
+          title: Offset
+          type: integer
+      tags:
+      - category
+    post:
+      description: Category viewsets
+      operationId: category_create
+      tags:
+      - category
+  /api/v1/category/{id}/:
+    delete:
+      description: Category viewsets
+      operationId: category_delete
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this category.
+          title: ID
+          type: integer
+      tags:
+      - category
+    get:
+      description: Category viewsets
+      operationId: category_read
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this category.
+          title: ID
+          type: integer
+      tags:
+      - category
+    patch:
+      description: Category viewsets
+      operationId: category_partial_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this category.
+          title: ID
+          type: integer
+      tags:
+      - category
+    put:
+      description: Category viewsets
+      operationId: category_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: A unique integer value identifying this category.
+          title: ID
+          type: integer
+      tags:
+      - category
+  /api/v1/favorite/:
+    get:
+      description: FavoriteThings viewsets
+      operationId: favorite_list
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          description: Number of results to return per page.
+          title: Limit
+          type: integer
+      - in: query
+        name: offset
+        schema:
+          description: The initial index from which to return the results.
+          title: Offset
+          type: integer
+      tags:
+      - favorite
+    post:
+      description: FavoriteThings viewsets
+      operationId: favorite_create
+      tags:
+      - favorite
+  /api/v1/favorite/{id}/:
+    delete:
+      description: custom destroy method that overide django destroy method
+      operationId: favorite_delete
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: ''
+          title: ''
+          type: string
+      tags:
+      - favorite
+    get:
+      description: FavoriteThings viewsets
+      operationId: favorite_read
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: ''
+          title: ''
+          type: string
+      tags:
+      - favorite
+    patch:
+      description: FavoriteThings viewsets
+      operationId: favorite_partial_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: ''
+          title: ''
+          type: string
+      tags:
+      - favorite
+    put:
+      description: FavoriteThings viewsets
+      operationId: favorite_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          description: ''
+          title: ''
+          type: string
+      tags:
+      - favorite
+servers:
+- url: ''

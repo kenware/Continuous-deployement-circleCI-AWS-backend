@@ -1,0 +1,115 @@
+ 
+version: 2.1
+
+references:
+  workspace: &workspace
+    ~/favorite-backend
+
+  envs: &envs
+    AWS_REGION: us-west-2
+    DATABASE_URL: postgres://favoritedb:favoritedb@favoritedb:5432/favoritedb
+    PORT: 5432
+
+  test_container_config: &test_container_config
+    environment: *envs
+    docker:
+      - image: circleci/python:3.7.7-buster
+      - image: circleci/postgres:13-alpine
+        name: favoritedb
+        environment:
+          - POSTGRES_PASSWORD=favoritedb
+          - POSTGRES_DATABASE=favoritedb
+          - POSTGRES_USER=favoritedb
+    working_directory: *workspace
+
+  deploy_container_config: &deploy_container_config
+    environment: *envs
+    machine: true
+    working_directory: *workspace
+
+  restore_repo: &restore_repo
+    restore_cache:
+      keys:
+        - repo-v1-{{ .Branch }}-{{ .Revision }}
+        - repo-v1-{{ .Branch }}
+        - repo-v1-
+
+  restore_requirement: &restore_requirement
+    restore_cache:
+      keys:
+        - v1-dependencies-{{ checksum "requirements.txt" }}
+        - v1-dependencies-
+
+commands:
+  setup_dependencies:
+    steps:
+      - run: sudo apt-get update -y
+
+jobs:
+  checkout_code:
+    <<: *test_container_config
+    steps:
+      - *restore_repo
+      - checkout
+      - save_cache:
+          key: repo-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
+
+  npm_install:
+    <<: *test_container_config
+    steps:
+      - *restore_repo
+      - *restore_requirement
+      - run:
+          name: "install"
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+      - save_cache:
+          key: key: v1-dependencies-{{ checksum "requirements.txt" }}
+          paths:
+            - ./venv
+
+  run_tests:
+    <<: *test_container_config
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - *restore_repo
+      - *restore_requirement
+      - setup_dependencies
+      - run:
+          name: "Build and run tests"
+          command: |
+            python manage.py test
+  deploy:
+    <<: *deploy_container_config
+    steps:
+      - *restore_repo
+      - run:
+          name: "Deploy To '$CIRCLE_BRANCH'"
+          command: ./docker/deploy.sh
+
+workflows:
+  version: 2.1
+  build-test-deploy:
+    jobs:
+      - checkout_code
+      - npm_install:
+          requires:
+            - checkout_code
+      - run_tests:
+          requires:
+            - npm_install
+
+      - deploy:
+          requires:
+            - run_tests
+          filters:
+            branches:
+              only: 
+                - develop
+                - staging
+                - master
