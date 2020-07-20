@@ -66,7 +66,7 @@ make_task_def() {
 			"cpu": '$CPU_SHARES',
 			"portMappings": [
 				{
-					"containerPort": '$CONTAINER_PORT'
+					"containerPort": '90'
 				}
 			],
 			"privileged": true,
