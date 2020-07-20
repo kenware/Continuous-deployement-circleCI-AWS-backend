@@ -54,11 +54,7 @@ CPU_SHARES=$(get_env "cpu_shares") ;{echo ${CPU_SHARES:=256}} 2> /dev/null
 MEM_SHARES=$(get_env "mem_shares") ;{echo ${MEM_SHARES:=256}} 2> /dev/null
 CONTAINER_PORT=$(get_env "container_port") ;{echo ${CONTAINER_PORT:=5000}} 2> /dev/null
 
-BASE_URL=$(get_env "base-url")
-DB_NAME=$(get_env "db")
-DB_HOST=$(get_env "db_host")
-DB_USER=$(get_env "db_user")
-DB_PASS=$(get_env "db_pass")
+DATABASE_URL=$(get_env "db_url")
 
 make_task_def() {
 	echo '[
@@ -84,24 +80,8 @@ make_task_def() {
 					"value":"'$CONTAINER_PORT'"
 				},
 				{
-					"name":"BASE_URL",
-					"value":"'$BASE_URL'"
-				},
-				{
-					"name":"DB_NAME",
-					"value":"'$DB_NAME'"
-				},
-				{
-					"name":"DB_HOST",
-					"value":"'$DB_HOST'"
-				},
-				{
-					"name":"DB_USER",
-					"value":"'$DB_USER'"
-				},
-				{
-					"name":"DB_PASS",
-					"value":"'$DB_PASS'"
+					"name":"DATABASE_URL",
+					"value":"'$DATABASE_URL'"
 				}
 			],
 			"logConfiguration":{
