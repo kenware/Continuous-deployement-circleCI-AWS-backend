@@ -13,6 +13,6 @@ COPY . /usr/src/app/
 
 RUN bash -c "chmod +x ./docker/run.sh"
 
-EXPOSE 8000 90
+EXPOSE 8000 90 80
 
 CMD ["./docker/run.sh"]
