@@ -77,7 +77,7 @@ make_task_def() {
 				},
 				{
 					"name":"PORT",
-					"value":"'90'"
+					"value":"'80'"
 				},
 				{
 					"name":"DATABASE_URL",
