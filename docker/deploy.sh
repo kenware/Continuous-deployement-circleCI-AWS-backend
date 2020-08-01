@@ -83,15 +83,7 @@ make_task_def() {
 					"name":"DATABASE_URL",
 					"value":"'$DATABASE_URL'"
 				}
-			],
-			"logConfiguration":{
-				"logDriver": "awslogs",
-				"options": {
-					"awslogs-group": "'$LOG_GROUP'",
-					"awslogs-region": "'$AWS_REGION'",
-					"awslogs-stream-prefix": "'$PROJECT_NAME'"
-				}
-			}
+			]
 		}
 	]'
 }
